@@ -1,0 +1,57 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'maven-publish'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral() // maven { url 'http://jcenter.bintray.com' }
+        jcenter()
+    }
+    dependencies {
+      classpath 'com.github.jengelman.gradle.plugins:shadow:1.1.1'
+    }
+    apply from: file('gradle/buildscript.gradle'), to: buildscript 
+}
+
+repositories {
+        mavenLocal()
+        mavenCentral() // maven { url 'http://jcenter.bintray.com' }
+        jcenter()
+    }
+
+dependencies {
+
+    compile 'com.netflix.turbine:turbine-core:2.0.0-DP.2'
+
+    compile 'org.slf4j:slf4j-log4j12:1.6.1'
+    compile 'com.rabbitmq:amqp-client:4.0.0'
+    testCompile 'junit:junit-dep:4.10'
+    testCompile 'org.json:json:20140107'
+}
+
+mainClassName = "se.lup.turbine.discovery.amqp.StartAmqpTurbine"
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
+
+shadowJar {
+  baseName = 'turbine-amqp-executable'
+  classifier = ''
+}
+
+publishing {
+  publications {
+    shadow(MavenPublication) {
+      from components.shadow
+      artifactId = 'turbine-amqp-executable'
+    }
+  }
+}
