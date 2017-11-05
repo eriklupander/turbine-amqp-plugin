@@ -1,12 +1,12 @@
 /*
  * Copyright 2017 eriklupander
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -80,13 +80,23 @@ final class AmqpInstanceDiscovery {
                             AmqpInstance.Status status = AmqpInstance.Status.valueOf(token.getState());
 
                             AmqpInstance amqpInstance = new AmqpInstance(clusterName, status, token.getAddress(), 8181);
+                            System.out.println("Got token for instance: " + new String(body));
                             if (subject != null) {
+                                System.out.println("Subject was not null, onNext called");
                                 subject.onNext(amqpInstance);
                             }
                         }
                     });
         } catch (URISyntaxException | KeyManagementException | NoSuchAlgorithmException | IOException | TimeoutException e) {
-            e.printStackTrace();
+            System.err.println("Problem connecting to RabbitMQ: " + e.getMessage());
+            System.err.println("Sleeping for five seconds before terminating");
+            try {
+                Thread.sleep(5000L);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+            System.err.println("System exit!");
+            System.exit(0);
         }
     }
 

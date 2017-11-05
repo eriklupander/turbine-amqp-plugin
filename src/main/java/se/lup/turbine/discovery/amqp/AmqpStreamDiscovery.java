@@ -46,16 +46,17 @@ public class AmqpStreamDiscovery implements StreamDiscovery {
                 .map(ei -> {
                     URI uri;
                     String uriString = uriTemplate.replace(HOSTNAME, ei.getHost() + ":" + ei.getPort());
+                    System.out.println("Got disc: " + uriString);
                     try {
                         uri = new URI(uriString);
                     } catch (Exception e) {
                         throw new RuntimeException("Invalid URI: " + uriString, e);
                     }
                     if (ei.getStatus() == AmqpInstance.Status.UP) {
-                        logger.info("StreamAction ADD");
+                        System.out.println("StreamAction ADD");
                         return StreamAction.create(StreamAction.ActionType.ADD, uri);
                     } else {
-                        logger.info("StreamAction REMOVE");
+                        System.out.println("StreamAction REMOVE");
                         return StreamAction.create(StreamAction.ActionType.REMOVE, uri);
                     }
 

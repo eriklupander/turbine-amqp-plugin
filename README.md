@@ -34,7 +34,7 @@ There are (currently) four custom JVM args one can pass to this customized Turbi
 
 Example using all arguments:
 
-    java -jar -Damqp.broker.url=amqp://guest:guest@192.168.99.100:5672 -Ddiscovery.queue=dicovery -Dcluster.name=swarm -Dconsumer.tag=myConsumerTag build/libs/turbine-amqp-executable-2.0.0-DP.3.jar
+    java -jar -Damqp.broker.url=amqp://guest:guest@192.168.99.100:5672 -Ddiscovery.queue=discovery -Dcluster.name=swarm -Dconsumer.tag=myConsumerTag build/libs/turbine-amqp-executable-2.0.0-DP.3.jar
     
 ### Client
 I developed this plugin in order to use Turbine with Go-based microservices running on Docker Swarm. 
